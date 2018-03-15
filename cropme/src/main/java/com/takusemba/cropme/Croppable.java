@@ -30,4 +30,14 @@ interface Croppable {
      * set adjustViewBounds to keep image aspect ratio
      */
     void setAdjustViewBounds(Boolean value);
+
+    /**
+     * set Image resource to use as placeholder image
+     */
+    void setImageResource(int resourceId);
+
+    /**
+     * set Image bitmap to use as placeholder image
+     */
+    void setImageBitmap(Bitmap placeHolderImage);
 }
