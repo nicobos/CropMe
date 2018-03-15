@@ -1,6 +1,7 @@
 package com.takusemba.cropme;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 
 /**
@@ -34,7 +35,7 @@ interface Croppable {
     /**
      * set Image resource to use as placeholder image
      */
-    void setImageResource(int resourceId);
+    void setImageDrawable(Drawable image);
 
     /**
      * set Image bitmap to use as placeholder image

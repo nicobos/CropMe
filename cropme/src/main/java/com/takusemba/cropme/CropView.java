@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -59,7 +60,7 @@ public class CropView extends FrameLayout implements Croppable {
     private int backgroundAlpha;
     private boolean withBorder;
     private boolean adjustBounds;
-    private int resourceId;
+    private Drawable placeholderImage;
 
     public CropView(@NonNull Context context) {
         this(context, null);
@@ -96,7 +97,7 @@ public class CropView extends FrameLayout implements Croppable {
         withBorder = a.getBoolean(R.styleable.CropView_cropme_with_border, DEFAULT_WITH_BORDER);
 
         adjustBounds = a.getBoolean(R.styleable.CropView_cropme_adjust_view_bounds,DEFAULT_ADJUST_IMAGE_BOUNDS);
-        resourceId = a.getInteger(R.styleable.CropView_cropme_set_image_resource,0);
+        placeholderImage = a.getDrawable(R.styleable.CropView_cropme_set_image_drawable);
 
         a.recycle();
 
@@ -126,7 +127,7 @@ public class CropView extends FrameLayout implements Croppable {
                 scaleAnimator = new ScaleAnimatorImpl(target, maxScale);
 
                 target.setAdjustViewBounds(adjustBounds);
-                if (resourceId != 0) target.setImageResource(resourceId);
+                if (placeholderImage != null) target.setImageDrawable(placeholderImage);
                 target.setResultRect(restriction);
                 overlayView.setAttrs(restriction, backgroundAlpha, withBorder);
 
@@ -219,9 +220,9 @@ public class CropView extends FrameLayout implements Croppable {
     }
 
     @Override
-    public void setImageResource(int resourceId) {
-        ImageView image = findViewById(R.id.cropme_image_view);
-        image.setImageResource(resourceId);
+    public void setImageDrawable(Drawable image) {
+        ImageView tvImage = findViewById(R.id.cropme_image_view);
+        tvImage.setImageDrawable(image);
     }
 
     @Override
