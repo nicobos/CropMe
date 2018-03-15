@@ -59,6 +59,7 @@ public class CropView extends FrameLayout implements Croppable {
     private int backgroundAlpha;
     private boolean withBorder;
     private boolean adjustBounds;
+    private int resourceId;
 
     public CropView(@NonNull Context context) {
         this(context, null);
@@ -95,6 +96,7 @@ public class CropView extends FrameLayout implements Croppable {
         withBorder = a.getBoolean(R.styleable.CropView_cropme_with_border, DEFAULT_WITH_BORDER);
 
         adjustBounds = a.getBoolean(R.styleable.CropView_cropme_adjust_view_bounds,DEFAULT_ADJUST_IMAGE_BOUNDS);
+        resourceId = a.getInteger(R.styleable.CropView_cropme_set_image_resource,0);
 
         a.recycle();
 
@@ -124,6 +126,7 @@ public class CropView extends FrameLayout implements Croppable {
                 scaleAnimator = new ScaleAnimatorImpl(target, maxScale);
 
                 target.setAdjustViewBounds(adjustBounds);
+                if (resourceId != 0) target.setImageResource(resourceId);
                 target.setResultRect(restriction);
                 overlayView.setAttrs(restriction, backgroundAlpha, withBorder);
 
