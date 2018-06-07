@@ -1,9 +1,14 @@
 package com.takusemba.cropme;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.RectF;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 
 /**
  * CropImageView
@@ -17,6 +22,7 @@ class CropImageView extends AppCompatImageView {
 
     public CropImageView(Context context) {
         this(context, null);
+
     }
 
     public CropImageView(Context context, AttributeSet attrs) {
@@ -44,4 +50,11 @@ class CropImageView extends AppCompatImageView {
     void setResultRect(RectF resultRect) {
         this.resultRect = resultRect;
     }
+
+
+
+
+
+
+
 }

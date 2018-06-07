@@ -41,4 +41,9 @@ interface ActionListener {
      * Called when moving action ends
      */
     void onMoveEnded();
+
+    /**
+     * Called when a touch down is detected
+     */
+    void onTouched(float x, float y);
 }

@@ -38,8 +38,10 @@ class ActionDetector {
     }
 
     private GestureDetector.SimpleOnGestureListener simpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
+
         @Override
         public boolean onDown(MotionEvent e) {
+            listener.onTouched(e.getRawX(),e.getRawY());
             return true;
         }
 
@@ -69,6 +71,8 @@ class ActionDetector {
             listener.onFlinged(velocityX, velocityY);
             return true;
         }
+
+
     };
 
     private ScaleGestureDetector.SimpleOnScaleGestureListener simpleScaleListener

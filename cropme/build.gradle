@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
 
 android {
     compileSdkVersion COMPILE_SDK_VERSION as int
@@ -17,35 +16,6 @@ android {
 dependencies {
     compile "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
     compile "com.android.support:support-dynamic-animation:$APP_COMPAT_VERSION"
-}
-
-def getBintrayUserProperty() {
-    return hasProperty('bintrayUser') ? bintrayUser : ""
-}
-
-def getBintrayApiKeyProperty() {
-    return hasProperty('bintrayApiKey') ? bintrayApiKey : ""
-}
-
-bintray {
-
-    user = bintrayUserProperty
-    key = bintrayApiKeyProperty
-
-    group = GROUP
-    version = LIBRARY_VERSION_NAME
-    configurations = ['archives']
-    pkg {
-        repo = POM_REPO
-        name = POM_NAME
-        desc = POM_DESCRIPTION
-        websiteUrl = POM_URL
-        issueTrackerUrl = ISSUE_URL
-        vcsUrl = POM_SCM_URL
-        licenses = ['Apache-2.0']
-        labels = ['android']
-        publicDownloadNumbers = true
-    }
 }
 
 install {
