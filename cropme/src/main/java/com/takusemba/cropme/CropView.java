@@ -52,6 +52,7 @@ public class CropView extends FrameLayout implements Croppable {
 
     private static final boolean DEFAULT_WITH_BORDER = true;
     private static final boolean DEFAULT_ADJUST_IMAGE_BOUNDS = true;
+    private static final boolean DEFAULT_USE_ADJUSTABLE_CROPBOX = false;
 
     private MoveAnimator horizontalAnimator;
     private MoveAnimator verticalAnimator;
@@ -81,6 +82,7 @@ public class CropView extends FrameLayout implements Croppable {
     private boolean withBorder;
     private boolean adjustBounds;
     private Drawable placeholderImage;
+    private boolean use_adjustable_crop_box;
 
     public CropView(@NonNull Context context) {
         this(context, null);
@@ -120,6 +122,8 @@ public class CropView extends FrameLayout implements Croppable {
         withBorder = a.getBoolean(R.styleable.CropView_cropme_with_border, DEFAULT_WITH_BORDER);
 
         adjustBounds = a.getBoolean(R.styleable.CropView_cropme_adjust_view_bounds,DEFAULT_ADJUST_IMAGE_BOUNDS);
+        use_adjustable_crop_box = a.getBoolean(R.styleable.CropView_cropme_adjustable_crop_box,DEFAULT_USE_ADJUSTABLE_CROPBOX);
+
         placeholderImage = a.getDrawable(R.styleable.CropView_cropme_set_image_drawable);
 
         a.recycle();
@@ -210,40 +214,40 @@ public class CropView extends FrameLayout implements Croppable {
             public boolean onTouch(View v, MotionEvent event) {
                 actionDetector.detectAction(event);
 
-                switch (event.getAction()){
-                    case MotionEvent.ACTION_DOWN:
-                        CropImageView target = findViewById(R.id.cropme_image_view);
-                        CropOverlayView overlayView = findViewById(R.id.cropme_overlay);
-
-                        if (overlayView.getLeftTopCorner().contains(event.getX(),event.getY()))
-                        {
-                            cornerDraggedState = TOP_LEFT;
-                            updateRestriction = true;
-                        }
-                        else if (overlayView.getRightTopCorner().contains(event.getX(),event.getY())){
-                            cornerDraggedState = TOP_RIGHT;
-                            updateRestriction = true;
-                        }
-                        else if (overlayView.getLeftBottomCorner().contains(event.getX(),event.getY())){
-                            cornerDraggedState = BOTTOM_LEFT;
-                            updateRestriction = true;
-                        }
-                        else if (overlayView.getRightBottomCorner().contains(event.getX(),event.getY())){
-                            cornerDraggedState = BOTTOM_RIGHT;
-                            updateRestriction = true;
-                        }
-                        else updateRestriction = false;
-                        break;
-
-                        case MotionEvent.ACTION_UP:
-                            updateRestriction = false;
-                            break;
+                if (use_adjustable_crop_box) {
+                    checkCornerTouch(event);
                 }
-
 
                 return true;
             }
         });
+    }
+
+    private void checkCornerTouch(MotionEvent event){
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                CropImageView target = findViewById(R.id.cropme_image_view);
+                CropOverlayView overlayView = findViewById(R.id.cropme_overlay);
+
+                if (overlayView.getLeftTopCorner().contains(event.getX(), event.getY())) {
+                    cornerDraggedState = TOP_LEFT;
+                    updateRestriction = true;
+                } else if (overlayView.getRightTopCorner().contains(event.getX(), event.getY())) {
+                    cornerDraggedState = TOP_RIGHT;
+                    updateRestriction = true;
+                } else if (overlayView.getLeftBottomCorner().contains(event.getX(), event.getY())) {
+                    cornerDraggedState = BOTTOM_LEFT;
+                    updateRestriction = true;
+                } else if (overlayView.getRightBottomCorner().contains(event.getX(), event.getY())) {
+                    cornerDraggedState = BOTTOM_RIGHT;
+                    updateRestriction = true;
+                } else updateRestriction = false;
+                break;
+
+            case MotionEvent.ACTION_UP:
+                updateRestriction = false;
+                break;
+        }
     }
 
     private void addLayouts() {
@@ -253,8 +257,8 @@ public class CropView extends FrameLayout implements Croppable {
                 ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         addView(imageView, imageParams);
-
         CropOverlayView overlayView = new CropOverlayView(getContext());
+        overlayView.setUse_adjustable_crop_box(use_adjustable_crop_box);
         overlayView.setId(R.id.cropme_overlay);
         LayoutParams overlayParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);

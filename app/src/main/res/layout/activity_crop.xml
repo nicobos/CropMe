@@ -69,6 +69,7 @@
             app:cropme_max_scale="3"
             app:cropme_result_height="80%"
             app:cropme_result_width="80%"
+            app:cropme_adjustable_crop_box="true"
             app:cropme_with_border="true" />
 
         <android.support.v7.widget.RecyclerView

@@ -49,6 +49,8 @@ class CropOverlayView extends FrameLayout {
     private RectF leftBottomCorner;
     private RectF rightBottomCorner;
 
+    private boolean use_adjustable_crop_box = false;
+
 
     public CropOverlayView(@NonNull Context context) {
         this(context, null);
@@ -120,8 +122,11 @@ class CropOverlayView extends FrameLayout {
             canvas.drawLine(resultRect.left + borderWidth * 2, resultRect.top, resultRect.left + borderWidth * 2, resultRect.bottom, border);
             canvas.drawLine(resultRect.right, resultRect.top, resultRect.right, resultRect.bottom, border);
         }
-        setCornerRect(resultRect);
-        drawCorners(canvas);
+
+        if (use_adjustable_crop_box) {
+            setCornerRect(resultRect);
+            drawCorners(canvas);
+        }
 
     }
 
@@ -192,5 +197,9 @@ class CropOverlayView extends FrameLayout {
 
     public void setResultRect(RectF resultRect) {
         this.resultRect = resultRect;
+    }
+
+    public void setUse_adjustable_crop_box(boolean use_adjustable_crop_box) {
+        this.use_adjustable_crop_box = use_adjustable_crop_box;
     }
 }
