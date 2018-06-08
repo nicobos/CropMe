@@ -26,6 +26,7 @@ class CropOverlayView extends FrameLayout {
 
     private static final int BORDER_WIDTH = 5;
 
+    private static final int CORNER_RECT_SIZE_DP = 50;
     private final Paint background = new Paint();
     private final Paint border = new Paint();
     private final Paint cropPaint = new Paint();
@@ -55,7 +56,7 @@ class CropOverlayView extends FrameLayout {
     public CropOverlayView(@NonNull Context context) {
         this(context, null);
         initPaint(context);
-        cornerDragSize = convertDpToPixel(20,context);
+        cornerDragSize = convertDpToPixel(CORNER_RECT_SIZE_DP,context);
         lineLength = convertDpToPixel(20,context);
 
     }
@@ -63,14 +64,14 @@ class CropOverlayView extends FrameLayout {
     public CropOverlayView(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
         initPaint(context);
-        cornerDragSize = convertDpToPixel(20,context);
+        cornerDragSize = convertDpToPixel(CORNER_RECT_SIZE_DP,context);
         lineLength = convertDpToPixel(20,context);
 
     }
 
     public CropOverlayView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        cornerDragSize = convertDpToPixel(20,context);
+        cornerDragSize = convertDpToPixel(CORNER_RECT_SIZE_DP,context);
         lineLength = convertDpToPixel(20,context);
         initPaint(context);
         init();
@@ -149,6 +150,14 @@ class CropOverlayView extends FrameLayout {
         /* Bottom right corner */
         canvas.drawLine(relRightOffset - lineLength,relBottomOffset,relRightOffset,relBottomOffset,paint1);
         canvas.drawLine(relRightOffset,relBottomOffset,relRightOffset,relBottomOffset - lineLength, paint1);
+    }
+
+    private void drawCornerRects(Canvas canvas){
+        canvas.drawRect(leftTopCorner,paint1);
+        canvas.drawRect(leftBottomCorner,paint1);
+        canvas.drawRect(rightTopCorner,paint1);
+        canvas.drawRect(rightBottomCorner,paint1);
+
     }
 
     void setCornerRect(RectF resultRect){
